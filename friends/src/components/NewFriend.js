@@ -23,9 +23,7 @@ function NewFriend (){
             name: formValues.name,
             age: Number(formValues.age),
             email: formValues.email,
-            id: Date.now()
         }
-        console.log(newFriend)
         axiosWithAuth().post('friends', newFriend)
             .then(res => {
                 console.log(res)
