@@ -9,6 +9,8 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import PrivateRoute from './components/PrivateRoute'
 import Friends from './components/Friends';
+import Friend from './components/Friend';
+import NewFriend from './components/NewFriend';
 
 function App(props) {
   useEffect(() => {
@@ -23,7 +25,7 @@ function App(props) {
         <nav>
           <Link to='/login'>Login</Link>
           <Link to='/logout'>Logout</Link>
-          {localStorage.getItem('token') ?
+          {props.isLoggedIn ?
             <Link to='/friends'>Friends</Link> :
             <div></div>
           }
@@ -33,7 +35,9 @@ function App(props) {
           <Route exact path='/' component={Login} />
           <Route path='/login' component={Login} />
           <Route path='/logout' component={Logout} />
-          <PrivateRoute path='/friends' component={Friends} />
+          <PrivateRoute exact path='/friends' component={Friends} />
+          <PrivateRoute exact path='/friends/:id' component={Friend} />
+          <PrivateRoute path='/new-friend' component={NewFriend} />
         </Switch>
       </div>
     </Router>

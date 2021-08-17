@@ -1,18 +1,20 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {useParams, Link} from 'react-router-dom'
 import axiosWithAuth from '../utils/axiosWithAuth'
 
 import Loading from './Loading'
 
-function Friends (props) {
-    const [friends, setFriends] = useState([])
+function Friend (){
+    const [friend, setFriend] = useState({})
     const [isLoading, setIsLoading] = useState(false)
-
+    const {id} = useParams()
+    const url = `friends/${id}`
+    
     useEffect(() => {
         setIsLoading(true)
-        axiosWithAuth().get('friends')
+        axiosWithAuth().get(url)
             .then(res => {
-                setFriends(res.data)
+                setFriend(res.data)
                 setIsLoading(false)
             })
             .catch(err => {
@@ -26,19 +28,13 @@ function Friends (props) {
     }
 
     return <div>
-        <h2>Friends</h2>
-        <div className='friends'>
-            {friends.map(friend => {
-                const url = `/friends/${friend.id}`
-                return(<div className='friend-stub' key={friend.id}>
-                    <Link to={url} className='link'>
-                        <p>{friend.name}</p>
-                    </Link>
-                </div>)
-            })}
+        <div className='friend'>
+            <h3>{friend.name}</h3>
+            <p>is {friend.age} years old</p>
+            <p>and can be reached at {friend.email}</p>
         </div>
         <Link to='/new-friend' className='new'>Add New Friend</Link>
     </div>
 }
 
-export default Friends
+export default Friend
